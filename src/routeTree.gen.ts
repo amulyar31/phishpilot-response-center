@@ -10,11 +10,13 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as SubmitRouteImport } from './routes/submit'
 import { Route as ApiApprovalsRouteImport } from './routes/api/approvals'
 import { Route as ApiAuditRouteImport } from './routes/api/audit'
 import { Route as ApiConfigRouteImport } from './routes/api/config'
 import { Route as ApiIncidentsRouteImport } from './routes/api/incidents'
 import { Route as ApiStatsRouteImport } from './routes/api/stats'
+import { Route as IncidentsIndexRouteImport } from './routes/incidents.index'
 import { Route as ApiDemoResetRouteImport } from './routes/api/demo.reset'
 import { Route as ApiIncidentsIdRouteImport } from './routes/api/incidents.$id'
 import { Route as ApiIncidentsIdAnalyzeRouteImport } from './routes/api/incidents.$id.analyze'
@@ -24,6 +26,11 @@ import { Route as ApiRecommendationsIdDecisionRouteImport } from './routes/api/r
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SubmitRoute = SubmitRouteImport.update({
+  id: '/submit',
+  path: '/submit',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiApprovalsRoute = ApiApprovalsRouteImport.update({
@@ -49,6 +56,11 @@ const ApiIncidentsRoute = ApiIncidentsRouteImport.update({
 const ApiStatsRoute = ApiStatsRouteImport.update({
   id: '/api/stats',
   path: '/api/stats',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const IncidentsIndexRoute = IncidentsIndexRouteImport.update({
+  id: '/incidents/',
+  path: '/incidents/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiDemoResetRoute = ApiDemoResetRouteImport.update({
@@ -80,11 +92,13 @@ const ApiRecommendationsIdDecisionRoute =
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/submit': typeof SubmitRoute
   '/api/approvals': typeof ApiApprovalsRoute
   '/api/audit': typeof ApiAuditRoute
   '/api/config': typeof ApiConfigRoute
   '/api/incidents': typeof ApiIncidentsRouteWithChildren
   '/api/stats': typeof ApiStatsRoute
+  '/incidents/': typeof IncidentsIndexRoute
   '/api/demo/reset': typeof ApiDemoResetRoute
   '/api/incidents/$id': typeof ApiIncidentsIdRouteWithChildren
   '/api/incidents/$id/analyze': typeof ApiIncidentsIdAnalyzeRoute
@@ -93,11 +107,13 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/submit': typeof SubmitRoute
   '/api/approvals': typeof ApiApprovalsRoute
   '/api/audit': typeof ApiAuditRoute
   '/api/config': typeof ApiConfigRoute
   '/api/incidents': typeof ApiIncidentsRouteWithChildren
   '/api/stats': typeof ApiStatsRoute
+  '/incidents': typeof IncidentsIndexRoute
   '/api/demo/reset': typeof ApiDemoResetRoute
   '/api/incidents/$id': typeof ApiIncidentsIdRouteWithChildren
   '/api/incidents/$id/analyze': typeof ApiIncidentsIdAnalyzeRoute
@@ -107,11 +123,13 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/submit': typeof SubmitRoute
   '/api/approvals': typeof ApiApprovalsRoute
   '/api/audit': typeof ApiAuditRoute
   '/api/config': typeof ApiConfigRoute
   '/api/incidents': typeof ApiIncidentsRouteWithChildren
   '/api/stats': typeof ApiStatsRoute
+  '/incidents/': typeof IncidentsIndexRoute
   '/api/demo/reset': typeof ApiDemoResetRoute
   '/api/incidents/$id': typeof ApiIncidentsIdRouteWithChildren
   '/api/incidents/$id/analyze': typeof ApiIncidentsIdAnalyzeRoute
@@ -122,11 +140,13 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/submit'
     | '/api/approvals'
     | '/api/audit'
     | '/api/config'
     | '/api/incidents'
     | '/api/stats'
+    | '/incidents/'
     | '/api/demo/reset'
     | '/api/incidents/$id'
     | '/api/incidents/$id/analyze'
@@ -135,11 +155,13 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/submit'
     | '/api/approvals'
     | '/api/audit'
     | '/api/config'
     | '/api/incidents'
     | '/api/stats'
+    | '/incidents'
     | '/api/demo/reset'
     | '/api/incidents/$id'
     | '/api/incidents/$id/analyze'
@@ -148,11 +170,13 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/submit'
     | '/api/approvals'
     | '/api/audit'
     | '/api/config'
     | '/api/incidents'
     | '/api/stats'
+    | '/incidents/'
     | '/api/demo/reset'
     | '/api/incidents/$id'
     | '/api/incidents/$id/analyze'
@@ -162,11 +186,13 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  SubmitRoute: typeof SubmitRoute
   ApiApprovalsRoute: typeof ApiApprovalsRoute
   ApiAuditRoute: typeof ApiAuditRoute
   ApiConfigRoute: typeof ApiConfigRoute
   ApiIncidentsRoute: typeof ApiIncidentsRouteWithChildren
   ApiStatsRoute: typeof ApiStatsRoute
+  IncidentsIndexRoute: typeof IncidentsIndexRoute
   ApiDemoResetRoute: typeof ApiDemoResetRoute
   ApiRecommendationsIdDecisionRoute: typeof ApiRecommendationsIdDecisionRoute
 }
@@ -178,6 +204,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/submit': {
+      id: '/submit'
+      path: '/submit'
+      fullPath: '/submit'
+      preLoaderRoute: typeof SubmitRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/approvals': {
@@ -213,6 +246,13 @@ declare module '@tanstack/react-router' {
       path: '/api/stats'
       fullPath: '/api/stats'
       preLoaderRoute: typeof ApiStatsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/incidents/': {
+      id: '/incidents/'
+      path: '/incidents'
+      fullPath: '/incidents/'
+      preLoaderRoute: typeof IncidentsIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/demo/reset': {
@@ -281,11 +321,13 @@ const ApiIncidentsRouteWithChildren = ApiIncidentsRoute._addFileChildren(
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  SubmitRoute: SubmitRoute,
   ApiApprovalsRoute: ApiApprovalsRoute,
   ApiAuditRoute: ApiAuditRoute,
   ApiConfigRoute: ApiConfigRoute,
   ApiIncidentsRoute: ApiIncidentsRouteWithChildren,
   ApiStatsRoute: ApiStatsRoute,
+  IncidentsIndexRoute: IncidentsIndexRoute,
   ApiDemoResetRoute: ApiDemoResetRoute,
   ApiRecommendationsIdDecisionRoute: ApiRecommendationsIdDecisionRoute,
 }
