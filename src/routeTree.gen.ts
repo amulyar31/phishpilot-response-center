@@ -10,8 +10,11 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ApiApprovalsRouteImport } from './routes/api/approvals'
 import { Route as ApiAuditRouteImport } from './routes/api/audit'
+import { Route as ApiConfigRouteImport } from './routes/api/config'
 import { Route as ApiIncidentsRouteImport } from './routes/api/incidents'
+import { Route as ApiStatsRouteImport } from './routes/api/stats'
 import { Route as ApiDemoResetRouteImport } from './routes/api/demo.reset'
 import { Route as ApiIncidentsIdRouteImport } from './routes/api/incidents.$id'
 import { Route as ApiIncidentsIdAnalyzeRouteImport } from './routes/api/incidents.$id.analyze'
@@ -23,14 +26,29 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiApprovalsRoute = ApiApprovalsRouteImport.update({
+  id: '/api/approvals',
+  path: '/api/approvals',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiAuditRoute = ApiAuditRouteImport.update({
   id: '/api/audit',
   path: '/api/audit',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiConfigRoute = ApiConfigRouteImport.update({
+  id: '/api/config',
+  path: '/api/config',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiIncidentsRoute = ApiIncidentsRouteImport.update({
   id: '/api/incidents',
   path: '/api/incidents',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiStatsRoute = ApiStatsRouteImport.update({
+  id: '/api/stats',
+  path: '/api/stats',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiDemoResetRoute = ApiDemoResetRouteImport.update({
@@ -62,8 +80,11 @@ const ApiRecommendationsIdDecisionRoute =
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/api/approvals': typeof ApiApprovalsRoute
   '/api/audit': typeof ApiAuditRoute
+  '/api/config': typeof ApiConfigRoute
   '/api/incidents': typeof ApiIncidentsRouteWithChildren
+  '/api/stats': typeof ApiStatsRoute
   '/api/demo/reset': typeof ApiDemoResetRoute
   '/api/incidents/$id': typeof ApiIncidentsIdRouteWithChildren
   '/api/incidents/$id/analyze': typeof ApiIncidentsIdAnalyzeRoute
@@ -72,8 +93,11 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/api/approvals': typeof ApiApprovalsRoute
   '/api/audit': typeof ApiAuditRoute
+  '/api/config': typeof ApiConfigRoute
   '/api/incidents': typeof ApiIncidentsRouteWithChildren
+  '/api/stats': typeof ApiStatsRoute
   '/api/demo/reset': typeof ApiDemoResetRoute
   '/api/incidents/$id': typeof ApiIncidentsIdRouteWithChildren
   '/api/incidents/$id/analyze': typeof ApiIncidentsIdAnalyzeRoute
@@ -83,8 +107,11 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/api/approvals': typeof ApiApprovalsRoute
   '/api/audit': typeof ApiAuditRoute
+  '/api/config': typeof ApiConfigRoute
   '/api/incidents': typeof ApiIncidentsRouteWithChildren
+  '/api/stats': typeof ApiStatsRoute
   '/api/demo/reset': typeof ApiDemoResetRoute
   '/api/incidents/$id': typeof ApiIncidentsIdRouteWithChildren
   '/api/incidents/$id/analyze': typeof ApiIncidentsIdAnalyzeRoute
@@ -95,8 +122,11 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/api/approvals'
     | '/api/audit'
+    | '/api/config'
     | '/api/incidents'
+    | '/api/stats'
     | '/api/demo/reset'
     | '/api/incidents/$id'
     | '/api/incidents/$id/analyze'
@@ -105,8 +135,11 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/api/approvals'
     | '/api/audit'
+    | '/api/config'
     | '/api/incidents'
+    | '/api/stats'
     | '/api/demo/reset'
     | '/api/incidents/$id'
     | '/api/incidents/$id/analyze'
@@ -115,8 +148,11 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/api/approvals'
     | '/api/audit'
+    | '/api/config'
     | '/api/incidents'
+    | '/api/stats'
     | '/api/demo/reset'
     | '/api/incidents/$id'
     | '/api/incidents/$id/analyze'
@@ -126,8 +162,11 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ApiApprovalsRoute: typeof ApiApprovalsRoute
   ApiAuditRoute: typeof ApiAuditRoute
+  ApiConfigRoute: typeof ApiConfigRoute
   ApiIncidentsRoute: typeof ApiIncidentsRouteWithChildren
+  ApiStatsRoute: typeof ApiStatsRoute
   ApiDemoResetRoute: typeof ApiDemoResetRoute
   ApiRecommendationsIdDecisionRoute: typeof ApiRecommendationsIdDecisionRoute
 }
@@ -141,6 +180,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/approvals': {
+      id: '/api/approvals'
+      path: '/api/approvals'
+      fullPath: '/api/approvals'
+      preLoaderRoute: typeof ApiApprovalsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/audit': {
       id: '/api/audit'
       path: '/api/audit'
@@ -148,11 +194,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiAuditRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/config': {
+      id: '/api/config'
+      path: '/api/config'
+      fullPath: '/api/config'
+      preLoaderRoute: typeof ApiConfigRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/incidents': {
       id: '/api/incidents'
       path: '/api/incidents'
       fullPath: '/api/incidents'
       preLoaderRoute: typeof ApiIncidentsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/stats': {
+      id: '/api/stats'
+      path: '/api/stats'
+      fullPath: '/api/stats'
+      preLoaderRoute: typeof ApiStatsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/demo/reset': {
@@ -221,8 +281,11 @@ const ApiIncidentsRouteWithChildren = ApiIncidentsRoute._addFileChildren(
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ApiApprovalsRoute: ApiApprovalsRoute,
   ApiAuditRoute: ApiAuditRoute,
+  ApiConfigRoute: ApiConfigRoute,
   ApiIncidentsRoute: ApiIncidentsRouteWithChildren,
+  ApiStatsRoute: ApiStatsRoute,
   ApiDemoResetRoute: ApiDemoResetRoute,
   ApiRecommendationsIdDecisionRoute: ApiRecommendationsIdDecisionRoute,
 }
