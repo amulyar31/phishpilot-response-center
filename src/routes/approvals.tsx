@@ -30,8 +30,9 @@ function Approvals() {
       ) : (
         <div className="space-y-5">
           {[...groups.values()].map((recs) => {
-            const inc = recs[0].incidents;
-            const ev = recs[0].evidence.filter((e) => !["missing_evidence"].includes(e.evidence_type)).slice(0, 6);
+            const first = recs[0]!;
+            const inc = first.incidents;
+            const ev = first.evidence.filter((e) => !["missing_evidence"].includes(e.evidence_type)).slice(0, 6);
             return (
               <Panel key={inc.id} title={<Link to="/incidents/$id" params={{ id: inc.id }} className="hover:underline">{inc.ref} · {inc.title}</Link>} right={<RiskBadge level={inc.risk_level} score={inc.risk_score} />}>
                 <div className="grid gap-4 lg:grid-cols-2">

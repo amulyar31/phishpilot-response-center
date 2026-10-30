@@ -11,7 +11,7 @@ export async function api<T>(path: string, init?: RequestInit & { json?: unknown
     res = await fetch(path, {
       ...init,
       headers: { "content-type": "application/json", ...(init?.headers ?? {}) },
-      body: init?.json !== undefined ? JSON.stringify(init.json) : init?.body,
+      body: init?.json !== undefined ? JSON.stringify(init.json) : (init?.body ?? null),
     });
   } catch {
     throw new ClientError("NETWORK", "Could not reach the server", 0);

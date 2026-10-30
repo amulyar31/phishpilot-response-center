@@ -207,7 +207,7 @@ const PLAYBOOK: Record<string, { action_type: string; title: string; why: string
 };
 async function responseAgent(inc: Incident, ctx: Ctx): Promise<AgentResult> {
   const risk = ctx.risk_review as { level: string; score: number; applied: { label: string; reason: string }[]; missing: string[] };
-  const plays = PLAYBOOK[risk.level] ?? PLAYBOOK.MEDIUM;
+  const plays = PLAYBOOK[risk.level] ?? PLAYBOOK["MEDIUM"] ?? [];
   const recs = plays.map((p) => ({
     action_type: p.action_type, title: p.title,
     rationale: `${p.why} Basis: risk ${risk.score}/100 (${risk.level}). ${risk.applied.slice(0, 3).map((a) => a.reason).join(". ")}${risk.missing.length ? `. Missing: ${risk.missing[0]}` : ""}.`,
@@ -299,13 +299,13 @@ export async function runWorkflow(incidentId: string, opts: { force?: boolean } 
       try {
         const res = await withTimeout(AGENTS[a](inc as Incident, ctx), AGENT_TIMEOUT_MS);
         if (a === "triage") {
-          const inds = (res.output.indicators as { type: string; value: string; normalized: string }[]) ?? [];
+          const inds = (res.output["indicators"] as { type: string; value: string; normalized: string }[]) ?? [];
           if (inds.length) await db.from("indicators").insert(inds.map((i) => ({ incident_id: incidentId, indicator_type: i.type, indicator_value: i.value, normalized_value: i.normalized })));
         }
         if (res.evidence.length) await db.from("evidence").insert(res.evidence.map((e) => ({ ...e, metadata_json: (e.metadata_json ?? {}) as never, incident_id: incidentId, agent_run_id: currentRun })));
         await db.from("agent_runs").update({ status: "completed", completed_at: new Date().toISOString(), summary: res.summary, output_json: res.output as never, error_code: null }).eq("id", currentRun);
         ctx[a] = res.output;
-        await audit(incidentId, `agent:${a}`, "agent_completed", { evidence_count: res.evidence.length, ai_used: res.output.ai_used });
+        await audit(incidentId, `agent:${a}`, "agent_completed", { evidence_count: res.evidence.length, ai_used: res.output["ai_used"] });
         done = true;
       } catch (e) {
         const code = (e as AiError).code ?? "AGENT_ERROR";
