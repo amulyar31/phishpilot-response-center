@@ -10,33 +10,126 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ApiAuditRouteImport } from './routes/api/audit'
+import { Route as ApiIncidentsRouteImport } from './routes/api/incidents'
+import { Route as ApiDemoResetRouteImport } from './routes/api/demo.reset'
+import { Route as ApiIncidentsIdRouteImport } from './routes/api/incidents.$id'
+import { Route as ApiIncidentsIdAnalyzeRouteImport } from './routes/api/incidents.$id.analyze'
+import { Route as ApiIncidentsIdEventsRouteImport } from './routes/api/incidents.$id.events'
+import { Route as ApiRecommendationsIdDecisionRouteImport } from './routes/api/recommendations.$id.decision'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiAuditRoute = ApiAuditRouteImport.update({
+  id: '/api/audit',
+  path: '/api/audit',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiIncidentsRoute = ApiIncidentsRouteImport.update({
+  id: '/api/incidents',
+  path: '/api/incidents',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiDemoResetRoute = ApiDemoResetRouteImport.update({
+  id: '/api/demo/reset',
+  path: '/api/demo/reset',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiIncidentsIdRoute = ApiIncidentsIdRouteImport.update({
+  id: '/$id',
+  path: '/$id',
+  getParentRoute: () => ApiIncidentsRoute,
+} as any)
+const ApiIncidentsIdAnalyzeRoute = ApiIncidentsIdAnalyzeRouteImport.update({
+  id: '/analyze',
+  path: '/analyze',
+  getParentRoute: () => ApiIncidentsIdRoute,
+} as any)
+const ApiIncidentsIdEventsRoute = ApiIncidentsIdEventsRouteImport.update({
+  id: '/events',
+  path: '/events',
+  getParentRoute: () => ApiIncidentsIdRoute,
+} as any)
+const ApiRecommendationsIdDecisionRoute =
+  ApiRecommendationsIdDecisionRouteImport.update({
+    id: '/api/recommendations/$id/decision',
+    path: '/api/recommendations/$id/decision',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/api/audit': typeof ApiAuditRoute
+  '/api/incidents': typeof ApiIncidentsRouteWithChildren
+  '/api/demo/reset': typeof ApiDemoResetRoute
+  '/api/incidents/$id': typeof ApiIncidentsIdRouteWithChildren
+  '/api/incidents/$id/analyze': typeof ApiIncidentsIdAnalyzeRoute
+  '/api/incidents/$id/events': typeof ApiIncidentsIdEventsRoute
+  '/api/recommendations/$id/decision': typeof ApiRecommendationsIdDecisionRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/api/audit': typeof ApiAuditRoute
+  '/api/incidents': typeof ApiIncidentsRouteWithChildren
+  '/api/demo/reset': typeof ApiDemoResetRoute
+  '/api/incidents/$id': typeof ApiIncidentsIdRouteWithChildren
+  '/api/incidents/$id/analyze': typeof ApiIncidentsIdAnalyzeRoute
+  '/api/incidents/$id/events': typeof ApiIncidentsIdEventsRoute
+  '/api/recommendations/$id/decision': typeof ApiRecommendationsIdDecisionRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/api/audit': typeof ApiAuditRoute
+  '/api/incidents': typeof ApiIncidentsRouteWithChildren
+  '/api/demo/reset': typeof ApiDemoResetRoute
+  '/api/incidents/$id': typeof ApiIncidentsIdRouteWithChildren
+  '/api/incidents/$id/analyze': typeof ApiIncidentsIdAnalyzeRoute
+  '/api/incidents/$id/events': typeof ApiIncidentsIdEventsRoute
+  '/api/recommendations/$id/decision': typeof ApiRecommendationsIdDecisionRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/api/audit'
+    | '/api/incidents'
+    | '/api/demo/reset'
+    | '/api/incidents/$id'
+    | '/api/incidents/$id/analyze'
+    | '/api/incidents/$id/events'
+    | '/api/recommendations/$id/decision'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/api/audit'
+    | '/api/incidents'
+    | '/api/demo/reset'
+    | '/api/incidents/$id'
+    | '/api/incidents/$id/analyze'
+    | '/api/incidents/$id/events'
+    | '/api/recommendations/$id/decision'
+  id:
+    | '__root__'
+    | '/'
+    | '/api/audit'
+    | '/api/incidents'
+    | '/api/demo/reset'
+    | '/api/incidents/$id'
+    | '/api/incidents/$id/analyze'
+    | '/api/incidents/$id/events'
+    | '/api/recommendations/$id/decision'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ApiAuditRoute: typeof ApiAuditRoute
+  ApiIncidentsRoute: typeof ApiIncidentsRouteWithChildren
+  ApiDemoResetRoute: typeof ApiDemoResetRoute
+  ApiRecommendationsIdDecisionRoute: typeof ApiRecommendationsIdDecisionRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +141,90 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/audit': {
+      id: '/api/audit'
+      path: '/api/audit'
+      fullPath: '/api/audit'
+      preLoaderRoute: typeof ApiAuditRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/incidents': {
+      id: '/api/incidents'
+      path: '/api/incidents'
+      fullPath: '/api/incidents'
+      preLoaderRoute: typeof ApiIncidentsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/demo/reset': {
+      id: '/api/demo/reset'
+      path: '/api/demo/reset'
+      fullPath: '/api/demo/reset'
+      preLoaderRoute: typeof ApiDemoResetRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/incidents/$id': {
+      id: '/api/incidents/$id'
+      path: '/$id'
+      fullPath: '/api/incidents/$id'
+      preLoaderRoute: typeof ApiIncidentsIdRouteImport
+      parentRoute: typeof ApiIncidentsRoute
+    }
+    '/api/incidents/$id/analyze': {
+      id: '/api/incidents/$id/analyze'
+      path: '/analyze'
+      fullPath: '/api/incidents/$id/analyze'
+      preLoaderRoute: typeof ApiIncidentsIdAnalyzeRouteImport
+      parentRoute: typeof ApiIncidentsIdRoute
+    }
+    '/api/incidents/$id/events': {
+      id: '/api/incidents/$id/events'
+      path: '/events'
+      fullPath: '/api/incidents/$id/events'
+      preLoaderRoute: typeof ApiIncidentsIdEventsRouteImport
+      parentRoute: typeof ApiIncidentsIdRoute
+    }
+    '/api/recommendations/$id/decision': {
+      id: '/api/recommendations/$id/decision'
+      path: '/api/recommendations/$id/decision'
+      fullPath: '/api/recommendations/$id/decision'
+      preLoaderRoute: typeof ApiRecommendationsIdDecisionRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
+interface ApiIncidentsIdRouteChildren {
+  ApiIncidentsIdAnalyzeRoute: typeof ApiIncidentsIdAnalyzeRoute
+  ApiIncidentsIdEventsRoute: typeof ApiIncidentsIdEventsRoute
+}
+
+const ApiIncidentsIdRouteChildren: ApiIncidentsIdRouteChildren = {
+  ApiIncidentsIdAnalyzeRoute: ApiIncidentsIdAnalyzeRoute,
+  ApiIncidentsIdEventsRoute: ApiIncidentsIdEventsRoute,
+}
+
+const ApiIncidentsIdRouteWithChildren = ApiIncidentsIdRoute._addFileChildren(
+  ApiIncidentsIdRouteChildren,
+)
+
+interface ApiIncidentsRouteChildren {
+  ApiIncidentsIdRoute: typeof ApiIncidentsIdRouteWithChildren
+}
+
+const ApiIncidentsRouteChildren: ApiIncidentsRouteChildren = {
+  ApiIncidentsIdRoute: ApiIncidentsIdRouteWithChildren,
+}
+
+const ApiIncidentsRouteWithChildren = ApiIncidentsRoute._addFileChildren(
+  ApiIncidentsRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ApiAuditRoute: ApiAuditRoute,
+  ApiIncidentsRoute: ApiIncidentsRouteWithChildren,
+  ApiDemoResetRoute: ApiDemoResetRoute,
+  ApiRecommendationsIdDecisionRoute: ApiRecommendationsIdDecisionRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
