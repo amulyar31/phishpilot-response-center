@@ -121,6 +121,7 @@ export async function analyze(id: string, force = false) {
   } catch (e) {
     const code = (e as AiError).code;
     if (code === "ALREADY_RUNNING") throw new ApiError(409, code, "An investigation is already running for this incident");
+    if (code === "ALREADY_COMPLETE") throw new ApiError(409, code, "Investigation already completed. Use re-run to start over.");
     if (code === "NOT_FOUND") throw new ApiError(404, code, "Incident not found");
     throw new ApiError(500, code ?? "WORKFLOW_ERROR", (e as Error).message);
   }

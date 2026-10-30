@@ -254,7 +254,11 @@ export async function runWorkflow(incidentId: string, opts: { force?: boolean } 
   const latest = new Map<string, NonNullable<typeof prevRuns>[number]>();
   (prevRuns ?? []).forEach((r) => latest.set(r.agent_type, r));
   const allDone = AGENT_ORDER.every((a) => latest.get(a)?.status === "completed");
-  const fresh = opts.force || allDone;
+  if (allDone && !opts.force) {
+    await db.from("incidents").update({ status: inc.status === "analyzing" ? "awaiting_approval" : inc.status }).eq("id", incidentId);
+    throw new AiError("ALREADY_COMPLETE", "Investigation already completed; use force to re-run");
+  }
+  const fresh = !!opts.force;
   if (fresh && prevRuns?.length) {
     await db.from("indicators").delete().eq("incident_id", incidentId);
     await db.from("evidence").delete().eq("incident_id", incidentId);

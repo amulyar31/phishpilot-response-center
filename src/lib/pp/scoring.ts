@@ -45,7 +45,7 @@ export function computeConfidence(input: {
   if (input.senderKnown || input.sourceType === "url") pts += 1;
   if (input.aiAvailable) pts += 0.5;
   pts -= input.conflicts;
-  if (pts >= 2.5) return "HIGH";
+  if (pts >= 3) return "HIGH";
   if (pts >= 1.2) return "MEDIUM";
   return "LOW";
 }
