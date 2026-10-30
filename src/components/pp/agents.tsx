@@ -56,7 +56,7 @@ export function AgentCards({ runs, evidence }: { runs: AgentRun[]; evidence: Evi
 function AgentCard({ meta, run, attempts, evidence }: { meta: (typeof AGENTS)[number]; run: AgentRun | null; attempts: number; evidence: Evidence[] }) {
   const [open, setOpen] = useState(false);
   const Icon = meta.icon;
-  const out = run?.output_json ?? {};
+  const out = (run?.output_json ?? {}) as { ai_used?: boolean; ai_error?: unknown; deterministic_summary?: string; ai_tactics?: string[] };
   const aiUsed = out.ai_used as boolean | undefined;
   return (
     <div className="card-surface flex flex-col">

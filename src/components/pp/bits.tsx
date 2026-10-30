@@ -41,7 +41,7 @@ export function Tag({ children, tone = "muted" }: { children: ReactNode; tone?: 
   return <span className={cn("inline-flex items-center rounded border px-1.5 py-px text-[10px] font-semibold uppercase tracking-wider", cls)}>{children}</span>;
 }
 
-export function PageHeader({ title, subtitle, actions }: { title: string; subtitle?: string; actions?: ReactNode }) {
+export function PageHeader({ title, subtitle, actions }: { title: string; subtitle?: string | undefined; actions?: ReactNode }) {
   return (
     <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
       <div>

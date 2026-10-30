@@ -40,7 +40,7 @@ export function registrable(domain: string) {
 export function parseEmail(text: string) {
   const header = (name: string) => {
     const m = text.match(new RegExp(`^\\s*${name}\\s*:\\s*(.+)$`, "im"));
-    return m ? m[1].trim() : null;
+    return m?.[1] ? m[1].trim() : null;
   };
   const fromRaw = header("From");
   const subject = header("Subject");
@@ -49,8 +49,8 @@ export function parseEmail(text: string) {
   if (fromRaw) {
     const m = fromRaw.match(/^(.*?)<([^>]+)>/);
     if (m) {
-      senderName = m[1].replace(/"/g, "").trim() || null;
-      senderEmail = m[2].trim().toLowerCase();
+      senderName = (m[1] ?? "").replace(/"/g, "").trim() || null;
+      senderEmail = (m[2] ?? "").trim().toLowerCase();
     } else {
       const e = fromRaw.match(/[\w.+-]+@[\w.-]+\.[a-z]{2,}/i);
       senderEmail = e ? e[0].toLowerCase() : null;
